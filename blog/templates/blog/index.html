@@ -1,8 +1,17 @@
-{% extends 'blog/base.html' %}
+{% extends "blog/base.html" %}
 
-{% block title %}Página Inicial - Meu Blog{% endblock %}
+{% block title %}Página Inicial{% endblock %}
 
 {% block content %}
-    <h2>Bem-vindo à Página Inicial!</h2>
-    <p>Este é o conteúdo da página principal do nosso blog.</p>
+    <h2>Postagens</h2>
+    {% for post in posts %}
+        <article>
+            <h3>{{ post.titulo }}</h3>
+            <p>{{ post.conteudo }}</p>
+            <small>Publicado em: {{ post.criado_em }}</small>
+        </article>
+        <hr>
+    {% empty %}
+        <p>Não há postagens publicadas ainda.</p>
+    {% endfor %}
 {% endblock %}
