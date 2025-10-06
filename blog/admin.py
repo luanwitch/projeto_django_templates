@@ -3,8 +3,6 @@ from .models import Post
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    # Aqui você pode adicionar configurações para a sua tela de admin,
-    # como a exibição de campos, filtros, etc.
-    list_display = ('titulo', 'status', 'criado_em')
-    list_filter = ('status', 'criado_em')
+    list_display = ('titulo', 'status', 'criado_em', 'author')
+    list_filter = ('status', 'criado_em', 'author')
     search_fields = ('titulo', 'conteudo')
