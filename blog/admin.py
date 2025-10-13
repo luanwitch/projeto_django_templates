@@ -6,3 +6,4 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'status', 'criado_em', 'author')
     list_filter = ('status', 'criado_em', 'author')
     search_fields = ('titulo', 'conteudo')
+    prepopulated_fields = {'slug': ('titulo',)}  
