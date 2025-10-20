@@ -2,25 +2,29 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 
+class PublicadosManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status='published')
 
 class Post(models.Model):
-    titulo = models.CharField(max_length=200)
-    conteudo = models.TextField()
-
     STATUS_CHOICES = (
         ('draft', 'Rascunho'),
         ('published', 'Publicado'),
     )
-    status = models.CharField(
-        max_length=10,
-        choices=STATUS_CHOICES,
-        default='draft',
-    )
 
+    titulo = models.CharField(max_length=200)
+    conteudo = models.TextField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+
+    objects = models.Manager()
+    publicados = PublicadosManager()
+
+    class Meta:
+        ordering = ['-criado_em']
 
     def __str__(self):
         return self.titulo

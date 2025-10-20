@@ -8,24 +8,60 @@
         font-size: 18px;
         background-color: #fdfdfd;
     }
-    
+
     .head_text {
         color: white;
     }
-    
+
     .card {
         box-shadow: 0 16px 48px #E3E7EB;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .masthead {
+        background: #3498db;
+        color: white;
+        padding: 60px 0;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .masthead .site-heading h3 {
+        font-weight: 600;
+        font-size: 2rem;
+    }
+
+    .masthead p {
+        font-size: 1.1rem;
+    }
+
+    .post-date {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .post-content {
+        color: #333;
     }
 </style>
 
 <header class="masthead">
-    <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-10 mx-auto">
+            <div class="col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h3 class="site-heading my-4 mt-3 text-white">Welcome to my awesome Blog</h3>
-                    <p class="text-light">We Love Django As much as you do..! &nbsp;</p>
+                    <h3 class="site-heading my-4 mt-3 text-white">
+                        Welcome to my awesome Blog
+                    </h3>
+                    <p class="text-light">
+                        We Love Django As much as you do..!
+                    </p>
                 </div>
             </div>
         </div>
@@ -33,22 +69,23 @@
 </header>
 
 <div class="container">
-    <div class="row">
-        <!-- Blog Entries Column -->
+    <div class="row justify-content-center">
         <div class="col-md-8 mt-3 left">
-            {% for post in post_list %}
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h2 class="card-title">{{ post.title }}</h2>
-                        <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on }}</p>
-                        <p class="card-text">{{ post.content|slice:":200" }}</p>
-                        <a href="{% url 'post_detail' post.slug %}" class="btn btn-primary">Read More &rarr;</a>
-                    </div>
+
+            {% for post in posts %}
+                <div class="card p-4">
+                    <h2 class="card-title">{{ post.titulo }}</h2>
+                    <p class="post-content">{{ post.conteudo|truncatewords:30 }}</p>
+                    <p class="post-date">
+                        Publicado em {{ post.criado_em|date:"d M Y" }}
+                    </p>
+                </div>
+            {% empty %}
+                <div class="alert alert-warning text-center mt-5">
+                    Nenhuma postagem publicada no momento.
                 </div>
             {% endfor %}
-        </div>
-        <div class="col-md-4 mt-3 right">
-        {% include 'blog/sidebar.html' %}
+
         </div>
     </div>
 </div>
